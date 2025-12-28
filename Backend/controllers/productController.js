@@ -6,48 +6,31 @@ const addProduct = async (req, res) => {
         const { name, description, price, category, subCategory, sizes, bestseller } = req.body;
 
         if (!name || !description || !price || !category || !subCategory) {
-            return res.json({ success: false, message: "Missing required fields" });
+            return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 
         const validPrice = Number(price);
         if (isNaN(validPrice) || validPrice < 0) {
-            return res.json({ success: false, message: "Price must be positive" });
+            return res.status(400).json({ success: false, message: "Price must be positive" });
         }
 
+        // Handle sizes
         let safeSizes = [];
-        try {
+        if (sizes) {
             if (typeof sizes === "string") {
-                safeSizes = sizes.includes("[")
-                    ? JSON.parse(sizes)
-                    : sizes.split(",").map((s) => s.trim());
-            } else if (Array.isArray(sizes)) {
-                safeSizes = sizes;
-            }
-        } catch {
-            safeSizes = [];
+                safeSizes = sizes.includes("[") ? JSON.parse(sizes) : sizes.split(",").map(s => s.trim());
+            } else if (Array.isArray(sizes)) safeSizes = sizes;
         }
 
-        const images = [
-            req.files?.image1?.[0],
-            req.files?.image2?.[0],
-            req.files?.image3?.[0],
-            req.files?.image4?.[0],
+        // ✅ Get Cloudinary URLs directly from multer
+        const imagesUrl = [
+            req.files?.image1?.[0]?.path,
+            req.files?.image2?.[0]?.path,
+            req.files?.image3?.[0]?.path,
+            req.files?.image4?.[0]?.path,
         ].filter(Boolean);
 
-        let imagesUrl = [];
-
-        if (images.length > 0) {
-            imagesUrl = await Promise.all(
-                images.map(async (img) => {
-                    const uploaded = await cloudinary.uploader.upload(img.path, {
-                        resource_type: "image",
-                    });
-                    return uploaded.secure_url;
-                })
-            );
-        }
-
-        const productData = {
+        const product = await productModel.create({
             name,
             description,
             price: validPrice,
@@ -57,17 +40,15 @@ const addProduct = async (req, res) => {
             sizes: safeSizes,
             image: imagesUrl,
             date: Date.now(),
-        };
+        });
 
-        const product = new productModel(productData);
-        await product.save();
-
-        res.json({ success: true, message: "Product added successfully" });
+        res.status(201).json({ success: true, message: "Product added successfully", product });
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: error.message });
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 const listProducts = async (req, res) => {
     try {

@@ -30,7 +30,7 @@ const List = ({ token }) => {
         { id },
         {
           headers: {
-            token: token, // correct header expected by your backend
+            Authorization: `Bearer ${token}` // correct header expected by your backend
           },
         }
       );

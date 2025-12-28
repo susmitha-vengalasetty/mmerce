@@ -19,6 +19,17 @@ productRouter.post(
         { name: "image3", maxCount: 1 },
         { name: "image4", maxCount: 1 },
     ]),
+    (req, res, next) => {
+        // Collect URLs from multer Cloudinary upload
+        const images = [];
+        for (const key in req.files) {
+            if (req.files[key].length > 0) {
+                images.push(req.files[key][0].path); // URL from Cloudinary
+            }
+        }
+        req.body.images = images; // pass to controller
+        next();
+    },
     addProduct
 );
 
