@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Upload Product</h2>
+
+    <form action="http://localhost:4000/api/product/add" 
+          method="POST" enctype="multipart/form-data"
+          class="space-y-4">
+
+      <!-- Product Name -->
+      <div>
+        <label class="font-medium">Product Name</label>
+        <input type="text" name="name" required
+               class="w-full border border-gray-300 rounded p-2">
+      </div>
+
+      <!-- Price -->
+      <div>
+        <label class="font-medium">Price</label>
+        <input type="number" name="price" min="1" required
+               class="w-full border border-gray-300 rounded p-2">
+        <p class="text-xs text-gray-500">Price cannot be negative.</p>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="font-medium">Description</label>
+        <textarea name="description" required
+                  class="w-full border border-gray-300 rounded p-2"></textarea>
+      </div>
+
+      <!-- Category -->
+      <div>
+        <label class="font-medium">Category</label>
+        <select name="category" id="category"
+                class="w-full border border-gray-300 rounded p-2" required>
+          <option value="">Select Category</option>
+          <option value="clothing">Clothing</option>
+          <option value="electronics">Electronics</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </div>
+
+      <!-- Subcategory -->
+      <div>
+        <label class="font-medium">SubCategory</label>
+        <select name="subCategory" id="subCategory"
+                class="w-full border border-gray-300 rounded p-2" required>
+          <option value="">Select SubCategory</option>
+        </select>
+      </div>
+
+      <!-- Sizes -->
+      <div>
+        <label class="font-medium">Sizes (multiple)</label>
+        <select name="sizes" id="sizes" multiple
+                class="w-full border border-gray-300 rounded p-2 h-28">
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="Free Size">Free Size</option>
+        </select>
+        <p class="text-xs text-gray-500">Hold CTRL to select multiple sizes.</p>
+      </div>
+
+      <!-- Bestseller -->
+      <div>
+        <label class="font-medium">Bestseller</label>
+        <select name="bestseller" class="w-full border border-gray-300 rounded p-2">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+
+      <!-- Images -->
+      <div>
+        <label class="font-medium">Upload Images</label>
+        <input type="file" name="image1" required class="mb-2">
+        <input type="file" name="image2" class="mb-2">
+        <input type="file" name="image3" class="mb-2">
+        <input type="file" name="image4" class="mb-2">
+        <p class="text-xs text-gray-500">image1 required, others optional.</p>
+      </div>
+
+      <button type="submit"
+              class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+        Upload Product
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Full real subcategories you used inside images.js
+    const subCategories = {
+      clothing: ["men", "women", "kids"],
+      electronics: ["gadgets", "accessories"],
+      accessories: ["men", "women"]
+    };
+
+    const categorySelect = document.getElementById("category");
+    const subCategorySelect = document.getElementById("subCategory");
+
+    categorySelect.addEventListener("change", () => {
+      const cat = categorySelect.value;
+
+      subCategorySelect.innerHTML = `<option value="">Select SubCategory</option>`;
+
+      if (subCategories[cat]) {
+        subCategories[cat].forEach(sub => {
+          subCategorySelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
