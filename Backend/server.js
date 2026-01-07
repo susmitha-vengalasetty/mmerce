@@ -18,7 +18,19 @@ connectCloudinary();
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",   // Vite local
+      "http://localhost:3000",   // React local
+      "https://mmerce-fq7l.vercel.app/", // production frontend
+      "https://mmerce-xdeh.vercel.app/"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  })
+);
 
 // Routes
 app.use("/api/user", userRoute);
