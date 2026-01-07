@@ -1,8 +1,8 @@
 import React,{ useState, useContext} from "react";
 import Logo from "../../assets/logo.jpg"; 
-import Search from "../../assets/Search.jpg";
+import Search from "../../assets/search.jpg";
 import shop_cart from "../../assets/shop_cart.jpg";
-import Person from "../../assets/Person.jpg";
+import Person from "../../assets/person.jpg";
 import { Link, NavLink, useLocation} from "react-router-dom";
 import menu_icon from "../../assets/menu_icon.jpg";
 import { ShopContext } from "../context/ShopContext";
