@@ -9,6 +9,7 @@ const ShopContextProvider = ({ children }) => {
   const currency = "₹";
   const delivery_fee = 10;
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  console.log("backend url:",backendUrl)
 
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
