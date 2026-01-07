@@ -1,5 +1,5 @@
 import React,{ useState, useContext} from "react";
-import Logo from "../../assets/Logo.jpg"; 
+import Logo from "../../assets/logo.jpg"; 
 import Search from "../../assets/Search.jpg";
 import shop_cart from "../../assets/shop_cart.jpg";
 import Person from "../../assets/Person.jpg";
