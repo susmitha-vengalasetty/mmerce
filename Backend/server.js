@@ -20,17 +20,25 @@ connectCloudinary();
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",   // Vite local
-      "http://localhost:3000",   // React local
-      "https://mmerce-fq7l.vercel.app", // production frontend
-      "https://mmerce-xdeh.vercel.app"
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (origin.includes("localhost")) {
+        return callback(null, true);
+      }
+
+      if (origin.includes("vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    credentials: true,
   })
 );
+
 
 // Routes
 app.use("/api/user", userRoute);
