@@ -41,6 +41,10 @@ const placeOrder = async (req, res) => {
 /* ================= PLACEHOLDERS ================= */
 /* ================= CREATE RAZORPAY ORDER ================= */
 const createRazorpayOrder = async (req, res) => {
+
+  console.log("KEY:", process.env.RAZORPAY_KEY_ID);
+  console.log("SECRET:", process.env.RAZORPAY_KEY_SECRET);
+
   try {
     const { amount } = req.body;
 
