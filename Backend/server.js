@@ -23,8 +23,8 @@ app.use(
     origin: [
       "http://localhost:5173",   // Vite local
       "http://localhost:3000",   // React local
-      "https://mmerce-fq7l.vercel.app/", // production frontend
-      "https://mmerce-xdeh.vercel.app/"
+      "https://mmerce-fq7l.vercel.app", // production frontend
+      "https://mmerce-xdeh.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
