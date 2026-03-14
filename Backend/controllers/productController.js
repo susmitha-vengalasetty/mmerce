@@ -23,12 +23,7 @@ const addProduct = async (req, res) => {
         }
 
         // ✅ Get Cloudinary URLs directly from multer
-        const imagesUrl = [
-            req.files?.image1?.[0]?.path,
-            req.files?.image2?.[0]?.path,
-            req.files?.image3?.[0]?.path,
-            req.files?.image4?.[0]?.path,
-        ].filter(Boolean);
+        const imagesUrl = req.body.images || [];
 
         const product = await productModel.create({
             name,

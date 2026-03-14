@@ -1,13 +1,13 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
-import razorpay from 'razorpay'
+import Razorpay from "razorpay";
 import crypto from "crypto";
 
 
-const razorpayInstance = new razorpay({
-  key_id : process.env.RAZORPAY_KEY_ID,
-  key_secret : process.env.RAZORPAY_KEY_SECRET,
-})
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 /* ================= PLACE ORDER ================= */
 const placeOrder = async (req, res) => {
   try {
@@ -47,6 +47,13 @@ const createRazorpayOrder = async (req, res) => {
 
   try {
     const { amount } = req.body;
+
+    if (!amount) {
+  return res.json({
+    success: false,
+    message: "Amount missing"
+  });
+}
 
     const options = {
       amount: amount * 100, // Razorpay works in paise

@@ -10,6 +10,7 @@ import razorpay_logo from "../../assets/razorpay_logo.jpeg";
 import { ShopContext } from "../context/ShopContext";
 
 const Placeorder = () => {
+  
   const [method, setMethod] = useState("cod");
   const navigate = useNavigate();
 
@@ -37,6 +38,7 @@ const Placeorder = () => {
 
   /* ===================== RAZORPAY ===================== */
   const handleRazorpayPayment = async (orderData) => {
+    console.log("TOKEN:", token);
     try {
       const cartTotal = orderData.amount;
 
@@ -98,7 +100,13 @@ const Placeorder = () => {
       };
 
       // 3️⃣ OPEN RAZORPAY CHECKOUT
-      const rzp = new window.Razorpay(options);
+     const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+        toast.error("Payment failed");
+        console.log(response.error);
+      });
+
       rzp.open();
     } catch (error) {
       console.error(error);
@@ -167,7 +175,7 @@ const Placeorder = () => {
 
       // ================= RAZORPAY =================
       if (method === "razorpay") {
-        handleRazorpayPayment(orderData);
+        await handleRazorpayPayment(orderData);
       }
     } catch (error) {
       console.error(error);
