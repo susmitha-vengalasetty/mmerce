@@ -9,7 +9,7 @@ const List = ({ token }) => {
   // Fetch all products
   const fetchList = async () => {
     try {
-      const response = await axios.post(backendUrl + "/api/product/list");
+      const response = await axios.get(backendUrl + "/api/product/list");
 
       if (response.data.success) {
         setList(response.data.products);
@@ -67,29 +67,33 @@ const List = ({ token }) => {
         </div>
 
         {/* Product List */}
-        {list.map((item) => (
-          <div
-            key={item._id}
-            className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-2 py-2 px-3 border text-sm"
-          >
-            <img
-              src={item.image[0]}
-              alt="Product"
-              className="w-16 h-16 object-cover rounded"
-            />
+{list.map((item) => {
+  console.log(item.image);
 
-            <p>{item.name}</p>
-            <p>{item.category}</p>
-            <p>₹{item.price}</p>
+  return (
+    <div
+      key={item._id}
+      className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center gap-2 py-2 px-3 border text-sm"
+    >
+      <img
+        src={Array.isArray(item.image) ? item.image[0] : item.image}
+        alt="Product"
+        className="w-16 h-16 object-cover rounded"
+      />
 
-            <p
-              onClick={() => removeProduct(item._id)}
-              className="text-right md:text-center cursor-pointer text-lg font-bold text-red-500 hover:text-red-700"
-            >
-              X
-            </p>
-          </div>
-        ))}
+      <p>{item.name}</p>
+      <p>{item.category}</p>
+      <p>₹{item.price}</p>
+
+      <p
+        onClick={() => removeProduct(item._id)}
+        className="text-right md:text-center cursor-pointer text-lg font-bold text-red-500 hover:text-red-700"
+      >
+        X
+      </p>
+    </div>
+  );
+})}
       </div>
     </div>
   );
