@@ -69,7 +69,7 @@ const Placeorder = () => {
         handler: async function (response) {
           // 2️⃣ VERIFY PAYMENT & PLACE ORDER
           const verifyRes = await axios.post(
-            `${backendUrl}/api/order/place-order-razorpay`,
+            `${backendUrl}/api/order/place-razorpay`,
             {
               items: orderData.items,
               amount: cartTotal,
