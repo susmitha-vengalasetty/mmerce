@@ -68,8 +68,12 @@ const createRazorpayOrder = async (req, res) => {
       order,
     });
   } catch (error) {
-    res.json({ success: false, message: error.message });
-  }
+  console.log("RAZORPAY ERROR:", error);
+  res.json({
+    success: false,
+    message: error.message
+  });
+}
 };
 
      
